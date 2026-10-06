@@ -1,0 +1,28 @@
+### NOWA GRA
+
+POST http://localhost:8080/api/game/start
+
+
+### STAN GRY
+
+GET http://localhost:8080/api/game
+
+
+### ZACZNIJ TURĘ
+
+POST http://localhost:8080/api/game/start-turn
+
+
+### ZGADNIĘTE
+
+POST http://localhost:8080/api/game/guess
+
+
+### POMIŃ
+
+POST http://localhost:8080/api/game/skip
+
+
+### NASTĘPNA RUNDA
+
+POST http://localhost:8080/api/game/next-round
