@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+    <meta name="theme-color" content="#131016">
+
+    <meta
+            name="apple-mobile-web-app-capable"
+            content="yes">
+
+    <meta
+            name="apple-mobile-web-app-title"
+            content="Time's Up">
+
+    <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent">
+
+    <meta
+            name="mobile-web-app-capable"
+            content="yes">
+
+    <title>Time's Up!</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link
+            rel="stylesheet"
+            href="style.css?v=4">
+
+</head>
+
+
+<body>
+
+
+<main id="app">
+
+
+    <!-- =========================
+         COUNTDOWN
+    ========================== -->
+
+    <div
+            id="countdownOverlay"
+            class="countdown-overlay hidden">
+
+        <div
+                id="countdownNumber"
+                class="countdown-number">
+
+            3
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         START SCREEN
+    ========================== -->
+
+    <section
+            class="screen start-screen"
+            id="startScreen">
+
+
+        <div class="logo-badge">
+
+            PARTY EDITION
+
+        </div>
+
+
+        <h1>
+
+            TIME'S
+
+            <span>
+                UP!
+            </span>
+
+        </h1>
+
+
+        <p class="subtitle">
+
+            40 kart. 3 rundy. Totalny chaos.
+
+        </p>
+
+
+
+        <!-- GAME INFO -->
+
+        <div class="game-info">
+
+
+            <div class="info-card">
+
+                <span>
+                    🃏
+                </span>
+
+                <strong>
+                    40
+                </strong>
+
+                <small>
+                    KART
+                </small>
+
+            </div>
+
+
+
+            <div class="info-card">
+
+                <span>
+                    ⚡
+                </span>
+
+                <strong>
+                    3
+                </strong>
+
+                <small>
+                    RUNDY
+                </small>
+
+            </div>
+
+
+
+            <div class="info-card">
+
+                <span>
+                    👥
+                </span>
+
+                <strong>
+                    2+
+                </strong>
+
+                <small>
+                    DRUŻYNY
+                </small>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =========================
+             TEAM SETUP
+        ========================== -->
+
+        <div class="team-setup">
+
+
+            <p class="team-setup-title">
+
+                DRUŻYNY
+
+            </p>
+
+
+            <div id="teamInputs">
+
+
+                <!-- TEAM 1 -->
+
+                <div class="team-input-row">
+
+                    <input
+                            class="team-name-input"
+                            type="text"
+                            maxlength="20"
+                            value="Dzika Patka"
+                            placeholder="Nazwa drużyny">
+
+                    <button
+                            class="remove-team-button"
+                            type="button"
+                            onclick="removeTeam(this)">
+
+                        ×
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- TEAM 2 -->
+
+                <div class="team-input-row">
+
+                    <input
+                            class="team-name-input"
+                            type="text"
+                            maxlength="20"
+                            value="Turbo Marcin"
+                            placeholder="Nazwa drużyny">
+
+                    <button
+                            class="remove-team-button"
+                            type="button"
+                            onclick="removeTeam(this)">
+
+                        ×
+
+                    </button>
+
+                </div>
+
+
+            </div>
+
+
+
+            <button
+                    class="add-team-button"
+                    type="button"
+                    onclick="addTeam()">
+
+                + DODAJ DRUŻYNĘ
+
+            </button>
+
+
+        </div>
+
+
+
+        <button
+                class="primary-button"
+                onclick="startGame()">
+
+            LET'S PLAY →
+
+        </button>
+
+
+    </section>
+
+
+
+    <!-- =========================
+         WAITING SCREEN
+    ========================== -->
+
+    <section
+            class="screen hidden"
+            id="waitingScreen">
+
+
+        <div
+                class="round-pill"
+                id="waitingRound">
+
+            RUNDA 1
+
+        </div>
+
+
+        <div class="pass-icon">
+
+            📱
+
+        </div>
+
+
+        <p class="small-label">
+
+            PODAJ TELEFON
+
+        </p>
+
+
+        <h2 id="waitingTeam">
+
+            DRUŻYNA
+
+        </h2>
+
+
+        <p
+                class="waiting-description"
+                id="roundDescription">
+
+            Opisuj hasło bez używania jego nazwy.
+
+        </p>
+
+
+        <div class="round-time">
+
+            ⏱ 45 SEKUND
+
+        </div>
+
+
+        <button
+                class="primary-button"
+                onclick="startTurn()">
+
+            JESTEŚMY GOTOWI
+
+        </button>
+
+
+    </section>
+
+
+
+    <!-- =========================
+         GAME SCREEN
+    ========================== -->
+
+    <section
+            class="screen hidden game-screen"
+            id="gameScreen">
+
+
+        <!-- HEADER -->
+
+        <header class="game-header">
+
+
+            <div>
+
+                <span
+                        class="round-number"
+                        id="roundNumber">
+
+                    RUNDA 1
+
+                </span>
+
+
+                <span
+                        class="round-rule"
+                        id="roundRule">
+
+                    OPISUJ
+
+                </span>
+
+            </div>
+
+
+
+            <div
+                    class="timer"
+                    id="timer">
+
+                00:45
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- TIMER BAR -->
+
+        <div class="timer-bar">
+
+            <div id="timerProgress"></div>
+
+        </div>
+
+
+
+        <!-- CURRENT TEAM -->
+
+        <div class="team-turn">
+
+            GRA:
+
+            <strong id="currentTeam">
+
+                DRUŻYNA
+
+            </strong>
+
+        </div>
+
+
+
+        <!-- CARD -->
+
+        <div class="card-wrapper">
+
+
+            <div
+                    class="game-card"
+                    id="gameCard">
+
+
+                <span class="card-label">
+
+                    TWOJE HASŁO
+
+                </span>
+
+
+                <h2 id="cardText">
+
+                    ALBERT EINSTEIN
+
+                </h2>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ACTION BUTTONS -->
+
+        <div class="action-buttons">
+
+
+            <button
+                    class="skip-button"
+                    id="skipButton"
+                    onclick="skipCard()">
+
+                ↷ POMIŃ
+
+            </button>
+
+
+
+            <button
+                    class="guess-button"
+                    onclick="guessCard()">
+
+                ✓ ZGADNIĘTE
+
+            </button>
+
+
+        </div>
+
+
+
+        <!-- DYNAMIC SCOREBOARD -->
+
+        <footer
+                class="scoreboard"
+                id="scoreboard">
+
+        </footer>
+
+
+    </section>
+
+
+
+    <!-- =========================
+         ROUND FINISHED
+    ========================== -->
+
+    <section
+            class="screen hidden"
+            id="roundFinishedScreen">
+
+
+        <div class="big-icon">
+
+            💥
+
+        </div>
+
+
+        <p class="small-label">
+
+            RUNDA ZAKOŃCZONA
+
+        </p>
+
+
+        <h2 id="finishedRound">
+
+            RUNDA 1
+
+        </h2>
+
+
+
+        <!-- DYNAMIC ROUND RESULTS -->
+
+        <div
+                class="team-results"
+                id="roundScores">
+
+        </div>
+
+
+
+        <p id="nextRoundText">
+
+            Następna runda: JEDNO SŁOWO
+
+        </p>
+
+
+        <button
+                class="primary-button"
+                onclick="nextRound()">
+
+            NASTĘPNA RUNDA →
+
+        </button>
+
+
+    </section>
+
+
+
+    <!-- =========================
+         GAME FINISHED
+    ========================== -->
+
+    <section
+            class="screen hidden"
+            id="finishedScreen">
+
+
+        <div class="trophy">
+
+            🏆
+
+        </div>
+
+
+        <p class="small-label">
+
+            KONIEC GRY
+
+        </p>
+
+
+        <h2 id="winner">
+
+            WYGRYWA...
+
+        </h2>
+
+
+
+        <!-- DYNAMIC FINAL RESULTS -->
+
+        <div
+                class="team-results"
+                id="finalScores">
+
+        </div>
+
+
+
+        <button
+                class="primary-button"
+                onclick="startGame()">
+
+            REVENGE MATCH ↻
+
+        </button>
+
+
+    </section>
+
+
+</main>
+
+
+<script src="app.js?v=4"></script>
+
+
+</body>
+
+</html>

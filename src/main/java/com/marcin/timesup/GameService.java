@@ -2,36 +2,79 @@ package com.marcin.timesup;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 @Service
 public class GameService {
 
+    private final CardBank cardBank;
+
     private Game currentGame;
 
-    public Game startGame() {
 
-        Game game = new Game("Drużyna A", "Drużyna B");
-
-        CardBank cardBank = new CardBank();
-
-        List<Card> drawnCards = cardBank.drawCards(40);
-
-        for (Card card : drawnCards) {
-            game.addCard(card.getText());
-        }
-
-        this.currentGame = game;
-
-        return currentGame;
+    public GameService(CardBank cardBank) {
+        this.cardBank = cardBank;
     }
 
-    public Game getCurrentGame() {
 
+    public Game getCurrentGame() {
         checkTimer();
 
         return currentGame;
     }
+
+
+    public Game startGame(List<String> teamNames) {
+
+        List<String> validNames;
+
+        if (teamNames == null) {
+
+            validNames = new ArrayList<>();
+
+        } else {
+
+            validNames = teamNames
+                    .stream()
+                    .filter(name ->
+                            name != null
+                                    && !name.isBlank()
+                    )
+                    .map(String::trim)
+                    .toList();
+        }
+
+
+        if (validNames.size() < 2) {
+
+            validNames = List.of(
+                    "Drużyna 1",
+                    "Drużyna 2"
+            );
+        }
+
+
+        Game game =
+                new Game(validNames);
+
+
+        List<Card> drawnCards =
+                cardBank.drawCards(40);
+
+
+        drawnCards.forEach(
+                game::addCard
+        );
+
+
+        this.currentGame = game;
+
+
+        return currentGame;
+    }
+
 
     public Game startTurn() {
 
@@ -39,12 +82,16 @@ public class GameService {
             return null;
         }
 
+
         checkTimer();
+
 
         currentGame.startTurn();
 
+
         return currentGame;
     }
+
 
     public Game guess() {
 
@@ -52,12 +99,16 @@ public class GameService {
             return null;
         }
 
+
         checkTimer();
+
 
         currentGame.guessCurrentCard();
 
+
         return currentGame;
     }
+
 
     public Game skip() {
 
@@ -65,12 +116,16 @@ public class GameService {
             return null;
         }
 
+
         checkTimer();
+
 
         currentGame.skipCurrentCard();
 
+
         return currentGame;
     }
+
 
     public Game nextRound() {
 
@@ -78,16 +133,20 @@ public class GameService {
             return null;
         }
 
+
         currentGame.startNextRound();
+
 
         return currentGame;
     }
+
 
     private void checkTimer() {
 
         if (currentGame == null) {
             return;
         }
+
 
         if (currentGame.isTurnExpired()) {
             currentGame.endTurn();

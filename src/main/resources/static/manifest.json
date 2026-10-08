@@ -1,0 +1,12 @@
+{
+  "name": "Time's Up Party",
+  "short_name": "Time's Up",
+  "description": "Imprezowa gra drużynowa Time's Up",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#131016",
+  "theme_color": "#131016",
+  "orientation": "portrait",
+  "lang": "pl"
+}
